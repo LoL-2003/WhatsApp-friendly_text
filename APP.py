@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 def format_to_whatsapp(text):
     """
@@ -35,12 +36,11 @@ if st.button("Format Text"):
         # Escape backticks for safe embedding in JavaScript
         escaped_output = formatted_output.replace("`", "\\`").replace("\n", "\\n")
         
-        # Add a copy-to-clipboard button
-        st.markdown(
+        # Add a copy-to-clipboard button with proper JavaScript function
+        components.html(
             f"""
             <div style="position:relative;">
-                <button onclick="navigator.clipboard.writeText(`{escaped_output}`); 
-                alert('Text copied to clipboard!');" 
+                <button onclick="copyToClipboard('{escaped_output}')" 
                 style="padding:10px 20px; font-size:16px; 
                 background-color:#4CAF50; color:white; border:none; cursor:pointer; 
                 border-radius:5px; transition: background-color 0.3s;">
@@ -48,8 +48,21 @@ if st.button("Format Text"):
                 </button>
                 <span id="copyMessage" style="display:none; font-size:12px; color:#4CAF50; margin-top:5px;">Copied!</span>
             </div>
+            <script>
+                function copyToClipboard(text) {{
+                    navigator.clipboard.writeText(text).then(function() {{
+                        var copyMessage = document.getElementById("copyMessage");
+                        copyMessage.style.display = "inline";
+                        setTimeout(function() {{
+                            copyMessage.style.display = "none";
+                        }}, 2000);
+                    }}, function() {{
+                        alert("Failed to copy text!");
+                    }});
+                }}
+            </script>
             """,
-            unsafe_allow_html=True,
+            height=100
         )
     else:
         st.warning("Please enter some text to format!")
