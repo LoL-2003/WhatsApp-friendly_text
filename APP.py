@@ -38,10 +38,16 @@ if st.button("Format Text"):
         # Add a copy-to-clipboard button
         st.markdown(
             f"""
-            <button onclick="navigator.clipboard.writeText(`{escaped_output}`)" 
-            style="padding:10px 15px; background-color:#4CAF50; color:white; border:none; cursor:pointer; border-radius:5px;">
-            Copy to Clipboard
-            </button>
+            <div style="position:relative;">
+                <button onclick="navigator.clipboard.writeText(`{escaped_output}`); 
+                alert('Text copied to clipboard!');" 
+                style="padding:10px 20px; font-size:16px; 
+                background-color:#4CAF50; color:white; border:none; cursor:pointer; 
+                border-radius:5px; transition: background-color 0.3s;">
+                Copy to Clipboard
+                </button>
+                <span id="copyMessage" style="display:none; font-size:12px; color:#4CAF50; margin-top:5px;">Copied!</span>
+            </div>
             """,
             unsafe_allow_html=True,
         )
