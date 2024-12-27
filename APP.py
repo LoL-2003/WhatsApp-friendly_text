@@ -32,10 +32,13 @@ if st.button("Format Text"):
         # Display the formatted output
         st.text_area("Formatted Text for WhatsApp:", formatted_output, height=300)
         
+        # Escape backticks for safe embedding in JavaScript
+        escaped_output = formatted_output.replace("`", "\\`").replace("\n", "\\n")
+        
         # Add a copy-to-clipboard button
         st.markdown(
             f"""
-            <button onclick="navigator.clipboard.writeText(`{formatted_output.replace('`', '\\`')}`)" 
+            <button onclick="navigator.clipboard.writeText(`{escaped_output}`)" 
             style="padding:10px 15px; background-color:#4CAF50; color:white; border:none; cursor:pointer; border-radius:5px;">
             Copy to Clipboard
             </button>
